@@ -12,10 +12,14 @@ export const routes: Routes = [
   },
   {
     path: 'clientes',
-    loadComponent: () => import('./clientes/clientes.page').then( m => m.ClientesPage)
+    loadComponent: () => import('./clientes/clientes.page').then(m => m.ClientesPage)
   },
   {
     path: 'agregar',
-    loadComponent: () => import('./agregar/agregar.page').then( m => m.AgregarPage)
+    loadComponent: () => import('./agregar/agregar.page').then(m => m.AgregarPage)
+  },  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   },
+
 ];
