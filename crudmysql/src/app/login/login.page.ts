@@ -5,16 +5,13 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
+  ReactiveFormsModule, // ← AÑADIR ESTA IMPORTACIÓN
   Validators,
 } from '@angular/forms';
-import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-  NavController,
-} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, NavController, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonItem, IonLabel, IonButton, IonFooter, IonButtons, IonInput, IonCardSubtitle } from '@ionic/angular/standalone'; // ← También agregué IonInput
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +25,18 @@ import { AlertController } from '@ionic/angular';
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    ReactiveFormsModule,
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonButton,
+    IonFooter,
+    IonButtons,
+    IonInput
   ],
 })
 export class LoginPage implements OnInit {
@@ -44,20 +53,51 @@ export class LoginPage implements OnInit {
   }
 
   validation_messages = {
-    'email' : [
-      {type: 'required', message: 'Escribir correo'},
-      {type: 'pattern', message: 'No es un formato de correo'}
+    'email': [
+      { type: 'required', message: 'Escribir correo' },
+      { type: 'pattern', message: 'No es un formato de correo' }
     ],
     'password': [
-      {type: 'required', message: 'Escriba su password'},
+      { type: 'required', message: 'Escriba su password' },
     ]
   }
 
-  constructor(private router:Router, private authService:AuthService, public alertController:AlertController, public navCtrl:NavController, public formBuilder:FormBuilder) {
+  constructor(private router: Router, private authService: AuthService, public alertController: AlertController, public navCtrl: NavController, public formBuilder: FormBuilder) {
     this.formLogin = this.createFormGroup();
   }
 
-  ngOnInit() {}
-  
-  // TODO: acabarlo
+  ngOnInit() { }
+
+  async iniciar() {
+    let email = this.formLogin.value.email;
+    this.authService.verificarEmail(email!).subscribe(async response => {
+      if (response.data) {
+        let user = this.formLogin.value.password;
+        this.authService.verificarClave(email!, user!).subscribe(async resp => {
+            if (resp.data) {
+              this.navCtrl.navigateRoot('clientes');
+            }
+            else {
+              const alert = await this.alertController.create({
+                header: "Error",
+                message: 'Password no Valido',
+                buttons: ['Aceptar']
+              });
+              await alert.present();
+            }
+          });
+      }
+      else {
+        const alert = await this.alertController.create({
+          header: "Error",
+          message: 'Correo no Valido',
+          buttons: ['Aceptar']
+        });
+        await alert.present();
+      }
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
 }

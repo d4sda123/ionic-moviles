@@ -9,12 +9,14 @@ use Exception;
 
 class UsuarioController extends Controller
 {
-    public static function verificaEmail($email)
+    public function verificaEmail(Request $request)
     {
+        \Log::info('Datos recibidos en verificaClave:', $request->all());
         try {
-            $usuario = Usuario::select('id', 'email')->where('email', '=', $email)
+            $usuario = Usuario::select('id', 'email')
+                ->where('email', '=', $request->email)
                 ->where('estado', '=', 1)
-                ->first;
+                ->first();
 
             if ($usuario == null) {
                 return response()->json([
@@ -37,13 +39,12 @@ class UsuarioController extends Controller
         }
     }
 
-    public static function verificaClave($email, $password)
+    public function verificaClave(Request $request)
     {
-        $usuario = '';
         try {
             $usuario = Usuario::select('id', 'email')
-                ->where('email', '=', $email)
-                ->where('password', '=', $password)
+                ->where('email', '=', $request->email)
+                ->where('password', '=', $request->password)
                 ->where('estado', '=', 1)
                 ->first();
 
@@ -51,7 +52,7 @@ class UsuarioController extends Controller
                 return response()->json([
                     "status" => 400,
                     "data" => $usuario,
-                    "Login" => false
+                    "login" => false
                 ]);
             } else {
                 return response()->json([
@@ -67,4 +68,5 @@ class UsuarioController extends Controller
             ]);
         }
     }
+
 }
