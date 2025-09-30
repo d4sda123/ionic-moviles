@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AlertController, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonIcon, ModalController, IonItemOption } from '@ionic/angular/standalone';
+import { AlertController, IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonIcon, ModalController, IonItemOption, IonMenuButton } from '@ionic/angular/standalone';
 import { Cliente, ClienteService } from '../services/cliente';
 import { AgregarPage } from '../agregar/agregar.page';
 
@@ -13,7 +13,7 @@ import { addOutline, create, trash } from 'ionicons/icons';
   templateUrl: './clientes.page.html',
   styleUrls: ['./clientes.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonButton, IonIcon, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonButton, IonIcon, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption, IonMenuButton]
 })
 export class ClientesPage implements OnInit {
 

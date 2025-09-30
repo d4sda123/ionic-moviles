@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, NavController, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonItem, IonLabel, IonButton, IonFooter, IonButtons, IonInput, IonCardSubtitle } from '@ionic/angular/standalone'; // ← También agregué IonInput
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth';
 
 @Component({
@@ -36,7 +36,8 @@ import { AuthService } from '../services/auth';
     IonButton,
     IonFooter,
     IonButtons,
-    IonInput
+    IonInput,
+    RouterLink
   ],
 })
 export class LoginPage implements OnInit {
@@ -75,9 +76,12 @@ export class LoginPage implements OnInit {
         let user = this.formLogin.value.password;
         this.authService.verificarClave(email!, user!).subscribe(async resp => {
             if (resp.data) {
-              this.navCtrl.navigateRoot('clientes');
+              // Marcar sesión como iniciada para el guard
+              localStorage.setItem('auth', '1');
+              this.navCtrl.navigateRoot('home');
             }
             else {
+              localStorage.removeItem('auth');
               const alert = await this.alertController.create({
                 header: "Error",
                 message: 'Password no Valido',
@@ -88,6 +92,7 @@ export class LoginPage implements OnInit {
           });
       }
       else {
+        localStorage.removeItem('auth');
         const alert = await this.alertController.create({
           header: "Error",
           message: 'Correo no Valido',

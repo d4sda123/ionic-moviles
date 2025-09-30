@@ -5,15 +5,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private url = "http://localhost:8000/api/login";
+  private base = "http://localhost:8000/api";
   
   constructor(private http: HttpClient) {}
-
+  
   public verificarEmail(email: string) {
-    return this.http.post<any>(this.url + `/email`, { email });
+    return this.http.post<any>(`${this.base}/login/email`, { email });
   }
 
   public verificarClave(email: string, password: string) {
-    return this.http.post<any>(this.url + `/password`, { email, password });
+    return this.http.post<any>(`${this.base}/login/password`, { email, password });
+  }
+
+  public registrar(email: string, password: string) {
+    return this.http.post<any>(`${this.base}/register`, { email, password });
   }
 }

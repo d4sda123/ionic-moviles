@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Clientes</ion-title>
+    <ion-title>Productos</ion-title>
     <ion-buttons slot="primary">
       <ion-button color="tertiary" fill="outline" (click)="Agregar()">
         Nuevo Registro
@@ -13,32 +13,26 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Clientes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let cliente of clientes">
+    <ion-item-sliding *ngFor="let p of productos">
       <ion-item>
         <ion-label>
-          <h3 class="title">{{ cliente.nombres }}</h3>
-          <p class="subtext">
-            {{'DNI/RUC : ' + cliente.ruc_dni + ' - Dirección : ' + cliente.direccion + ' - Correo : ' + cliente.email}}
-          </p>
+          <h3 class="title">{{ p.nombre }}</h3>
+          <p class="subtext">{{ p.descripcion }}</p>
+          <p class="subtext">Precio: {{ p.precio | number:'1.2-2' }} · Stock: {{ p.stock }}</p>
         </ion-label>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option>
-          <ion-button color="success" (click)="editar(cliente)">
+          <ion-button color="success" (click)="editar(p)">
             <ion-icon name="create"></ion-icon>
             Editar
           </ion-button>
         </ion-item-option>
 
         <ion-item-option>
-          <ion-button color="danger" (click)="eliminar(cliente.cliente_id)">
+          <ion-button color="danger" (click)="eliminar(p.producto_id)">
             <ion-icon name="trash"></ion-icon>
             Eliminar
           </ion-button>

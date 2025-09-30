@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ edit ? 'Editar ' : 'Agregar '}} Producto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="cerrarModal()">
+        Cerrar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Nombre -->
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="nombre"></ion-input>
+    </ion-item>
+    <ng-container *ngFor="let v of validation_messages.nombre">
+      <small class="error-message"
+        *ngIf="form.get('nombre')?.hasError(v.type) && (form.get('nombre')?.dirty || form.get('nombre')?.touched)">
+        {{ v.message }}
+      </small>
+    </ng-container>
+
+    <!-- Descripción -->
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input formControlName="descripcion"></ion-input>
+    </ion-item>
+
+    <!-- Precio -->
+    <ion-item>
+      <ion-label position="floating">Precio</ion-label>
+      <ion-input type="number" formControlName="precio"></ion-input>
+    </ion-item>
+    <ng-container *ngFor="let v of validation_messages.precio">
+      <small class="error-message"
+        *ngIf="form.get('precio')?.hasError(v.type) && (form.get('precio')?.dirty || form.get('precio')?.touched)">
+        {{ v.message }}
+      </small>
+    </ng-container>
+
+    <!-- Stock -->
+    <ion-item>
+      <ion-label position="floating">Stock</ion-label>
+      <ion-input type="number" formControlName="stock"></ion-input>
+    </ion-item>
+    <ng-container *ngFor="let v of validation_messages.stock">
+      <small class="error-message"
+        *ngIf="form.get('stock')?.hasError(v.type) && (form.get('stock')?.dirty || form.get('stock')?.touched)">
+        {{ v.message }}
+      </small>
+    </ng-container>
+
+    <ion-button [disabled]="!form.valid" type="submit" expand="block" padding color="primary" class="ion-margin-top">
+      {{ edit ? 'Actualizar ' : 'Guardar '}}
+    </ion-button>
+  </form>
+</ion-content>
