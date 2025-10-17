@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CategoriaController;
 
 // Clientes endpoints
 Route::get('/listado', [ClienteController::class, 'index']);
@@ -24,3 +25,5 @@ Route::get('/productos', [ProductoController::class, 'index']);
 Route::post('/productos', [ProductoController::class, 'store']);
 Route::put('/productos/{id}', [ProductoController::class, 'update']);
 Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
+
+Route::get('/categorias', [CategoriaController::class, 'index']);

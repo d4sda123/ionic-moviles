@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonItem, IonLabel, ModalController, IonInput } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonItem, IonLabel, ModalController, IonInput, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { Producto, ProductoService } from '../services/producto';
+import { Categoria, CategoriaService } from '../services/categoria';
 
 @Component({
   selector: 'app-agregar-producto',
@@ -12,12 +13,14 @@ import { Producto, ProductoService } from '../services/producto';
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     CommonModule, FormsModule, ReactiveFormsModule,
-    IonButtons, IonButton, IonItem, IonLabel, IonInput
+    IonButtons, IonButton, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption
   ]
 })
 export class AgregarProductoPage implements OnInit {
 
   @Input() producto?: Producto;
+
+  categorias: Categoria[] | undefined;
 
   edit = false;
 
@@ -25,6 +28,7 @@ export class AgregarProductoPage implements OnInit {
 
   constructor(
     private service: ProductoService,
+    private categoriaService: CategoriaService,
     private modalCtrl: ModalController,
     public formBuilder: FormBuilder
   ) {
@@ -33,6 +37,7 @@ export class AgregarProductoPage implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
+      categoria_id: new FormControl(null, [Validators.required]),
       nombre: new FormControl('', [Validators.required, Validators.minLength(2)]),
       descripcion: new FormControl('', []),
       precio: new FormControl(0, [Validators.required, Validators.min(0)]),
@@ -41,6 +46,9 @@ export class AgregarProductoPage implements OnInit {
   }
 
   validation_messages = {
+    'categoria': [
+      { type: 'required', message: 'Seleccione una categoria'}
+    ],
     'nombre': [
       { type: 'required', message: 'Escriba nombre.' },
       { type: 'minlength', message: 'Nombre mínimo de 2 caracteres' }
@@ -56,6 +64,11 @@ export class AgregarProductoPage implements OnInit {
   };
 
   ngOnInit() {
+    this.categoriaService.ObtenerTodos().subscribe(
+      response=>{
+        this.categorias=response;
+      }
+    )
     if (this.producto) {
       this.edit = true;
       this.form.patchValue(this.producto);

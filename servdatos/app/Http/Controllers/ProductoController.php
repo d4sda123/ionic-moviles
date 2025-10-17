@@ -10,13 +10,15 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        return Producto::all();
+        $ListaProducto=Producto::with(['categoria'])->where('estado','=','1')->get();
+        return response()->json($ListaProducto);
     }
 
     public function store(Request $request)
     {
         try {
             $producto = new Producto();
+            $producto->categoria_id = $request->categoria_id;
             $producto->nombre = $request->nombre;
             $producto->descripcion = $request->descripcion;
             $producto->precio = $request->precio;
@@ -26,6 +28,7 @@ class ProductoController extends Controller
 
             return [
                 'producto_id' => $producto->producto_id,
+                'categoria_id' => $producto->categoria_id,
                 'nombre' => $producto->nombre,
                 'descripcion' => $producto->descripcion,
                 'precio' => $producto->precio,

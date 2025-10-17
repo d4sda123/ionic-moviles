@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Categoria;
 
 class Producto extends Model
 {
@@ -11,6 +12,11 @@ class Producto extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'producto_id', 'nombre', 'descripcion', 'precio', 'stock', 'estado'
+        'producto_id', 'categoria_id', 'nombre', 'descripcion', 'precio', 'stock', 'estado'
     ];
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
 }

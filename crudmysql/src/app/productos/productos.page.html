@@ -19,6 +19,7 @@
       <ion-item>
         <ion-label>
           <h3 class="title">{{ p.nombre }}</h3>
+          <p class="subtext">{{ p.categoria.descripcion }}</p>
           <p class="subtext">{{ p.descripcion }}</p>
           <p class="subtext">Precio: {{ p.precio | number:'1.2-2' }} · Stock: {{ p.stock }}</p>
         </ion-label>

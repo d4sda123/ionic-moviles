@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Categoria } from '../services/categoria'
 
 export interface Producto {
   producto_id: number;
+  categoria: Categoria;
+  categoria_id: number;
   nombre: string;
   descripcion?: string;
   precio: number;
